@@ -17,7 +17,7 @@
 
 <p align="center">
   <a href="https://ward-sentry.github.io/chur-keenetic/latest/"><img alt="latest feed" src="https://img.shields.io/badge/feed-latest-147d4b"></a>
-  <a href="https://ward-sentry.github.io/chur-keenetic/0_1_1/"><img alt="0.1.1 feed" src="https://img.shields.io/badge/release-0.1.1-5c6b78"></a>
+  <a href="https://ward-sentry.github.io/chur-keenetic/1_0_0/"><img alt="1.0.0 feed" src="https://img.shields.io/badge/release-1.0.0-5c6b78"></a>
 </p>
 
 ![Chur Keenetic web interface](docs/img.png)
@@ -47,6 +47,19 @@
 - WireGuard.
 - VLESS.
 - Другие VPN/proxy runtime.
+
+### Лицензия
+
+Код Chur Keenetic распространяется по `Chur Keenetic Attribution License v1.0`.
+
+Публичное использование, демонстрация, форк, модифицированная версия или распространение проекта требуют видимого указания авторства:
+
+```text
+Chur Keenetic by Sergey Forlove
+https://github.com/ward-sentry/chur-keenetic
+```
+
+Сторонние компоненты, включая AmneziaWG и Entware-пакеты, остаются под своими лицензиями.
 
 ### Быстрая установка
 
@@ -141,7 +154,7 @@ https://ward-sentry.github.io/chur-keenetic/latest/<arch>
 Для установки конкретного релиза используйте версионную папку:
 
 ```text
-https://ward-sentry.github.io/chur-keenetic/0_1_1/<arch>
+https://ward-sentry.github.io/chur-keenetic/1_0_0/<arch>
 ```
 
 <details>
@@ -202,6 +215,19 @@ The idea is simple: instead of doing a long manual terminal setup, install one p
 - WireGuard.
 - VLESS.
 - More VPN/proxy runtimes.
+
+### License
+
+Chur Keenetic is licensed under the `Chur Keenetic Attribution License v1.0`.
+
+Public use, public demonstration, forks, modified versions, or distribution of the project require visible attribution:
+
+```text
+Chur Keenetic by Sergey Forlove
+https://github.com/ward-sentry/chur-keenetic
+```
+
+Third-party components, including AmneziaWG and Entware packages, remain under their own licenses.
 
 ### Quick Install
 
@@ -296,7 +322,7 @@ https://ward-sentry.github.io/chur-keenetic/latest/<arch>
 Use a versioned folder to pin a specific release:
 
 ```text
-https://ward-sentry.github.io/chur-keenetic/0_1_1/<arch>
+https://ward-sentry.github.io/chur-keenetic/1_0_0/<arch>
 ```
 
 <details>

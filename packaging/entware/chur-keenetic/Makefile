@@ -1,9 +1,10 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=chur-keenetic
-CHUR_VERSION?=0.1.0
+CHUR_VERSION?=1.0.0
 PKG_VERSION:=$(CHUR_VERSION)
-PKG_RELEASE:=24
+PKG_RELEASE:=1
+PKG_LICENSE:=Chur-Keenetic-Attribution-1.0
 
 CHUR_MANAGER_BINARY?=/src/dist/chur_$(PKG_VERSION)_entware_aarch64-3.10
 

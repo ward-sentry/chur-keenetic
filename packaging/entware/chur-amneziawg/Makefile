@@ -1,9 +1,10 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=chur-amneziawg
-CHUR_VERSION?=0.1.0
+CHUR_VERSION?=1.0.0
 PKG_VERSION:=$(CHUR_VERSION)
 PKG_RELEASE:=1
+PKG_LICENSE:=Chur-Keenetic-Attribution-1.0
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
