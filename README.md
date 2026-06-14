@@ -17,8 +17,10 @@
 
 <p align="center">
   <a href="https://ward-sentry.github.io/chur-keenetic/latest/"><img alt="latest feed" src="https://img.shields.io/badge/feed-latest-147d4b"></a>
-  <a href="https://ward-sentry.github.io/chur-keenetic/0_1_0/"><img alt="0.1.0 feed" src="https://img.shields.io/badge/release-0.1.0-5c6b78"></a>
+  <a href="https://ward-sentry.github.io/chur-keenetic/0_1_1/"><img alt="0.1.1 feed" src="https://img.shields.io/badge/release-0.1.1-5c6b78"></a>
 </p>
+
+![Chur Keenetic web interface](docs/img.png)
 
 ---
 
@@ -54,7 +56,15 @@
 opkg print-architecture
 ```
 
-2. Выберите feed:
+2. Подготовьте opkg к работе с HTTPS feed:
+
+```sh
+mkdir -p /opt/etc/opkg
+opkg update
+opkg install wget-ssl ca-certificates
+```
+
+3. Выберите feed:
 
 | Архитектура в Entware | Команда |
 | --- | --- |
@@ -72,16 +82,15 @@ arch aarch64-3.10_kn 200
 
 используйте `aarch64-3.10`.
 
-3. Установите пакет:
+4. Установите пакет:
 
 ```sh
-mkdir -p /opt/etc/opkg
 opkg update
 opkg install chur-keenetic
 /opt/etc/init.d/S99chur-keenetic start
 ```
 
-4. Откройте веб-интерфейс:
+5. Откройте веб-интерфейс:
 
 ```text
 http://<ip-роутера>:8088/
@@ -132,7 +141,7 @@ https://ward-sentry.github.io/chur-keenetic/latest/<arch>
 Для установки конкретного релиза используйте версионную папку:
 
 ```text
-https://ward-sentry.github.io/chur-keenetic/0_1_0/<arch>
+https://ward-sentry.github.io/chur-keenetic/0_1_1/<arch>
 ```
 
 <details>
@@ -202,7 +211,15 @@ The idea is simple: instead of doing a long manual terminal setup, install one p
 opkg print-architecture
 ```
 
-2. Select the feed:
+2. Prepare opkg for HTTPS feeds:
+
+```sh
+mkdir -p /opt/etc/opkg
+opkg update
+opkg install wget-ssl ca-certificates
+```
+
+3. Select the feed:
 
 | Entware architecture | Command |
 | --- | --- |
@@ -220,16 +237,15 @@ arch aarch64-3.10_kn 200
 
 use `aarch64-3.10`.
 
-3. Install the package:
+4. Install the package:
 
 ```sh
-mkdir -p /opt/etc/opkg
 opkg update
 opkg install chur-keenetic
 /opt/etc/init.d/S99chur-keenetic start
 ```
 
-4. Open the web UI:
+5. Open the web UI:
 
 ```text
 http://<router-ip>:8088/
@@ -280,7 +296,7 @@ https://ward-sentry.github.io/chur-keenetic/latest/<arch>
 Use a versioned folder to pin a specific release:
 
 ```text
-https://ward-sentry.github.io/chur-keenetic/0_1_0/<arch>
+https://ward-sentry.github.io/chur-keenetic/0_1_1/<arch>
 ```
 
 <details>

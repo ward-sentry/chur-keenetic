@@ -367,6 +367,11 @@
       gap: 8px;
       justify-content: flex-end;
     }
+    .action-button {
+      min-height: 34px;
+      padding: 6px 10px;
+      white-space: nowrap;
+    }
     .icon-button {
       aspect-ratio: 1;
       border-radius: 8px;
@@ -913,6 +918,8 @@
               ${renderMetaChip('AllowedIPs', config.allowedIp || 'not set')}
             </div>
             <div class="interface-actions">
+              <button class="action-button" type="button" data-amneziawg-action="start" data-run-action="start" data-name="${escapeHTML(config.name)}">Запустить</button>
+              <button class="secondary action-button" type="button" data-amneziawg-action="stop" data-run-action="stop" data-name="${escapeHTML(config.name)}" hidden>Остановить</button>
               <button class="icon-button secondary" type="button" data-amneziawg-action="edit" data-name="${escapeHTML(config.name)}" aria-label="Редактировать ${escapeHTML(config.name)}" title="Редактировать"><img class="button-icon" src="/icons/pencil-square.svg" alt=""></button>
               <button class="icon-button secondary" type="button" data-amneziawg-action="status" data-name="${escapeHTML(config.name)}" data-status-id="amneziawg-status-${index}" aria-label="Обновить статус ${escapeHTML(config.name)}" title="Статус"><img class="button-icon" src="/icons/arrow-clockwise.svg" alt=""></button>
               <button class="icon-button danger" type="button" data-amneziawg-action="delete" data-name="${escapeHTML(config.name)}" aria-label="Удалить ${escapeHTML(config.name)}" title="Удалить"><img class="button-icon" src="/icons/trash-fill.svg" alt=""></button>
@@ -1027,9 +1034,20 @@
         }
         const text = formatInterfaceStatus(result);
         setInterfaceBadge(statusNode, text, text === 'running' ? 'running' : 'stopped');
+        updateInterfaceRunActions(name, result.running);
       } catch (error) {
         setInterfaceBadge(statusNode, String(error), 'error');
+        updateInterfaceRunActions(name, false);
       }
+    }
+
+    function updateInterfaceRunActions(name, running) {
+      document.querySelectorAll('[data-run-action]').forEach((button) => {
+        if (button.dataset.name !== name) {
+          return;
+        }
+        button.hidden = button.dataset.runAction === 'start' ? running : !running;
+      });
     }
 
     function setInterfaceBadge(node, text, state) {
