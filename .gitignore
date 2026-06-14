@@ -24,9 +24,15 @@ profile.cov
 go.work
 go.work.sum
 
-# env file
-.env
+# Local build artifacts
+dist/
+.cache/
+build/
 
 # Editor/IDE
 # .idea/
 # .vscode/
+/.idea/*
+
+# Local reference material and imported sources
+/!local/

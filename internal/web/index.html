@@ -1,0 +1,1258 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chur Keenetic</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #17202a;
+      --bg: #f4f6f8;
+      --surface: #ffffff;
+      --surface-muted: #f8fafb;
+      --border: #d7dde3;
+      --border-strong: #b8c2cc;
+      --text: #17202a;
+      --muted: #5c6b78;
+      --accent: #1f6feb;
+      --accent-soft: #e8f1ff;
+      --good: #147d4b;
+      --good-soft: #e8f6ef;
+      --warn: #936316;
+      --warn-soft: #fff4d8;
+      --bad: #b42318;
+      --bad-soft: #fdeceb;
+      --shadow: 0 16px 48px rgba(22, 34, 45, .08);
+      background: var(--bg);
+    }
+    html {
+      min-height: 100%;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    button,
+    input {
+      font: inherit;
+    }
+    button {
+      appearance: none;
+      align-items: center;
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 6px;
+      color: #fff;
+      cursor: pointer;
+      display: inline-flex;
+      font-weight: 650;
+      gap: 8px;
+      justify-content: center;
+      min-height: 38px;
+      padding: 8px 12px;
+    }
+    button:disabled {
+      cursor: wait;
+      opacity: .65;
+    }
+    button.secondary {
+      background: var(--surface);
+      border-color: var(--border-strong);
+      color: var(--text);
+    }
+    button.ghost {
+      background: transparent;
+      border-color: transparent;
+      color: var(--muted);
+    }
+    button.danger {
+      background: var(--bad);
+      border-color: var(--bad);
+    }
+    main {
+      margin: 0 auto;
+      max-width: 1180px;
+      padding: 26px 20px 36px;
+    }
+    .topbar {
+      align-items: center;
+      display: flex;
+      gap: 18px;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+    .brand {
+      min-width: 0;
+    }
+    h1 {
+      font-size: 25px;
+      letter-spacing: 0;
+      line-height: 1.15;
+      margin: 0;
+    }
+    .brand-subtitle {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 4px;
+    }
+    .api-state {
+      align-items: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted);
+      display: inline-flex;
+      flex: 0 0 auto;
+      font-size: 13px;
+      gap: 8px;
+      min-height: 34px;
+      padding: 6px 12px;
+    }
+    .api-state::before {
+      background: var(--warn);
+      border-radius: 999px;
+      content: "";
+      height: 8px;
+      width: 8px;
+    }
+    .api-state.ready::before {
+      background: var(--good);
+    }
+    .api-state.error::before {
+      background: var(--bad);
+    }
+    .topbar-actions {
+      align-items: center;
+      display: flex;
+      flex: 0 0 auto;
+      gap: 8px;
+    }
+    .topbar-link {
+      align-items: center;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      color: var(--text);
+      display: inline-flex;
+      font-size: 13px;
+      font-weight: 700;
+      gap: 8px;
+      min-height: 36px;
+      padding: 8px 12px;
+      text-decoration: none;
+    }
+    .topbar-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .topbar-link.icon-only {
+      aspect-ratio: 1;
+      justify-content: center;
+      padding: 0;
+      width: 36px;
+    }
+    .tabs {
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 2px;
+      justify-content: flex-start;
+      margin-bottom: 20px;
+    }
+    .tab-button {
+      align-items: center;
+      background: transparent;
+      border: 0;
+      border-bottom: 2px solid transparent;
+      border-radius: 0;
+      color: var(--muted);
+      display: inline-flex;
+      flex: 0 0 auto;
+      gap: 8px;
+      justify-content: flex-start;
+      min-height: 42px;
+      min-width: 0;
+      padding: 10px 12px;
+      text-align: left;
+      width: fit-content;
+    }
+    .tab-button:first-child {
+      padding-left: 0;
+    }
+    .tab-button[aria-selected="true"] {
+      border-bottom-color: var(--accent);
+      color: var(--text);
+    }
+    .tab-panel[hidden],
+    [hidden] {
+      display: none !important;
+    }
+    .workspace-head {
+      align-items: center;
+      display: flex;
+      gap: 16px;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .workspace-title {
+      min-width: 0;
+    }
+    h2 {
+      font-size: 20px;
+      letter-spacing: 0;
+      line-height: 1.2;
+      margin: 0;
+    }
+    .workspace-meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 4px;
+    }
+    .message {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 12px;
+      padding: 9px 12px;
+    }
+    .message.error {
+      background: var(--bad-soft);
+      border-color: var(--bad);
+      color: var(--bad);
+    }
+    .message.success {
+      background: var(--good-soft);
+      border-color: var(--good);
+      color: var(--good);
+    }
+    .add-button {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      flex: 0 0 auto;
+      line-height: 1;
+      min-height: 42px;
+      padding: 0;
+      width: 42px;
+    }
+    .button-icon {
+      display: block;
+      height: 16px;
+      flex: 0 0 auto;
+      width: 16px;
+    }
+    .tab-button .button-icon {
+      opacity: .78;
+    }
+    .add-button .button-icon {
+      height: 20px;
+      width: 20px;
+    }
+    .layout {
+      align-items: start;
+      display: grid;
+      gap: 16px;
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .layout.with-creator {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .surface {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .surface-header {
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+      min-height: 58px;
+      padding: 14px 16px;
+    }
+    .surface-title {
+      font-size: 15px;
+      font-weight: 750;
+      margin: 0;
+    }
+    .surface-body {
+      padding: 16px;
+    }
+    .list-shell {
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .list-body {
+      padding: 0;
+    }
+    .interfaces {
+      display: grid;
+      gap: 8px;
+    }
+    .interface-row {
+      align-items: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: grid;
+      gap: 12px;
+      grid-template-columns: minmax(170px, 220px) minmax(0, 1fr) auto;
+      min-height: 52px;
+      padding: 9px 10px 9px 12px;
+    }
+    .interface-row.empty {
+      color: var(--muted);
+      grid-template-columns: auto minmax(0, 1fr) auto;
+    }
+    .interface-main {
+      align-items: center;
+      display: flex;
+      gap: 12px;
+      min-width: 0;
+    }
+    .interface-name {
+      font-size: 15px;
+      font-weight: 750;
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+    .interface-type {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+    .interface-meta {
+      align-items: center;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      min-width: 0;
+    }
+    .meta-chip {
+      background: var(--surface-muted);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted);
+      display: inline-flex;
+      font-size: 12px;
+      gap: 5px;
+      max-width: 230px;
+      min-width: 0;
+      padding: 4px 8px;
+    }
+    .meta-chip strong {
+      color: var(--text);
+      font-weight: 650;
+    }
+    .meta-chip span {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .interface-actions {
+      align-items: center;
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+    .icon-button {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      min-height: 34px;
+      padding: 0;
+      width: 34px;
+    }
+    .icon-button .button-icon {
+      height: 17px;
+      width: 17px;
+    }
+    .icon-button.danger .button-icon {
+      filter: brightness(0) invert(1);
+    }
+    .creator {
+      max-width: none;
+    }
+    .step-stack {
+      display: grid;
+      gap: 14px;
+    }
+    .provider-option {
+      align-items: center;
+      background: var(--surface-muted);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      display: grid;
+      gap: 12px;
+      grid-template-columns: minmax(0, 1fr) auto;
+      padding: 14px;
+      text-align: left;
+      width: 100%;
+    }
+    .provider-main {
+      min-width: 0;
+    }
+    .provider-name {
+      display: block;
+      font-size: 16px;
+      font-weight: 750;
+      margin-bottom: 5px;
+    }
+    .provider-caption {
+      color: var(--muted);
+      display: block;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .runtime-panel {
+      display: grid;
+      gap: 14px;
+    }
+    .dependency-list {
+      display: grid;
+      gap: 8px;
+    }
+    .dependency {
+      align-items: center;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      gap: 10px;
+      justify-content: space-between;
+      min-height: 42px;
+      padding: 8px 10px;
+    }
+    .dependency code {
+      color: var(--muted);
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+    .form-grid {
+      display: grid;
+      gap: 14px;
+    }
+    label {
+      color: var(--muted);
+      display: block;
+      font-size: 13px;
+      font-weight: 650;
+      margin-bottom: 6px;
+    }
+	    input[type="number"],
+	    input[type="text"] {
+	      background: var(--surface);
+	      border: 1px solid var(--border-strong);
+	      border-radius: 6px;
+	      color: inherit;
+      min-height: 40px;
+      padding: 8px 10px;
+      width: 100%;
+    }
+    input[type="file"] {
+      height: 1px;
+      opacity: 0;
+      overflow: hidden;
+      position: absolute;
+      width: 1px;
+    }
+    .file-drop {
+      align-items: center;
+      background: var(--surface-muted);
+      border: 1px dashed var(--border-strong);
+      border-radius: 8px;
+      color: var(--muted);
+      cursor: pointer;
+      display: grid;
+      gap: 6px;
+      justify-items: center;
+      min-height: 128px;
+      padding: 18px;
+      text-align: center;
+    }
+    .file-drop strong {
+      color: var(--text);
+      font-size: 14px;
+    }
+	    .file-name {
+	      color: var(--muted);
+	      font-size: 12px;
+	      overflow-wrap: anywhere;
+	    }
+	    .static-field {
+	      background: var(--surface-muted);
+	      border: 1px solid var(--border);
+	      border-radius: 6px;
+	      color: var(--muted);
+	      font-size: 13px;
+	      min-height: 40px;
+	      overflow-wrap: anywhere;
+	      padding: 10px;
+	    }
+	    .static-field strong {
+	      color: var(--text);
+	      font-weight: 750;
+	    }
+	    .form-actions {
+	      display: flex;
+	      flex-wrap: wrap;
+	      gap: 8px;
+	    }
+    .badge {
+      align-items: center;
+      border-radius: 999px;
+      display: inline-flex;
+      flex: 0 0 auto;
+      font-size: 12px;
+      font-weight: 750;
+      min-height: 24px;
+      padding: 4px 9px;
+      white-space: nowrap;
+    }
+    .badge.ready,
+    .badge.running,
+    .badge.found {
+      background: var(--good-soft);
+      color: var(--good);
+    }
+    .badge.missing,
+    .badge.stopped,
+    .badge.warn {
+      background: var(--warn-soft);
+      color: var(--warn);
+    }
+    .badge.error {
+      background: var(--bad-soft);
+      color: var(--bad);
+    }
+    .diagnostics-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .diagnostics-grid .wide {
+      grid-column: 1 / -1;
+    }
+    dl.info-list {
+      display: grid;
+      gap: 9px 16px;
+      grid-template-columns: minmax(110px, 190px) minmax(0, 1fr);
+      margin: 0;
+    }
+    dl.info-list dt {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    dl.info-list dd {
+      margin: 0;
+      overflow-wrap: anywhere;
+    }
+    pre {
+      background: #111820;
+      border-radius: 6px;
+      color: #dce7f0;
+      font-size: 12px;
+      line-height: 1.45;
+      margin: 0;
+      max-height: 440px;
+      overflow: auto;
+      padding: 14px;
+      white-space: pre-wrap;
+    }
+    @media (max-width: 760px) {
+      main {
+        padding: 18px 14px 28px;
+      }
+      .layout.with-creator,
+      .diagnostics-grid {
+        grid-template-columns: 1fr;
+      }
+      .interface-row {
+        align-items: stretch;
+        grid-template-columns: 1fr;
+      }
+      .interface-row.empty {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+      }
+      .interface-actions {
+        justify-content: flex-start;
+      }
+      .workspace-head,
+      .topbar {
+        align-items: flex-start;
+      }
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #101418;
+        --surface: #171d23;
+        --surface-muted: #1d252d;
+        --border: #303b45;
+        --border-strong: #465561;
+        --text: #e9eef3;
+        --muted: #a7b3be;
+        --accent: #6aa2ff;
+        --accent-soft: #16283f;
+        --good: #6bd19a;
+        --good-soft: #153525;
+        --warn: #f0c36a;
+        --warn-soft: #352915;
+        --bad: #ff8b82;
+        --bad-soft: #3b1d1b;
+        --shadow: none;
+      }
+      button.secondary {
+        background: var(--surface-muted);
+      }
+      .button-icon {
+        filter: brightness(0) invert(1);
+      }
+      .icon-button.danger .button-icon {
+        filter: brightness(0) invert(1);
+      }
+      .topbar-link .button-icon {
+        filter: brightness(0) invert(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="topbar">
+      <div class="brand">
+        <h1>Chur Keenetic</h1>
+        <div class="brand-subtitle">Менеджер VPN-интерфейсов для Entware</div>
+      </div>
+      <div class="topbar-actions">
+        <a class="topbar-link" href="https://www.donationalerts.com/r/chur" target="_blank" rel="noopener noreferrer">Поддержать</a>
+        <a class="topbar-link icon-only" href="https://github.com/ward-sentry/chur-keenetic" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub"><img class="button-icon" src="/icons/github.svg" alt=""></a>
+      </div>
+      <div class="api-state" id="status" hidden>Загрузка</div>
+    </header>
+
+    <nav class="tabs" aria-label="Разделы">
+      <button class="tab-button" id="tab-interfaces" type="button" role="tab" aria-selected="true" aria-controls="panel-interfaces" data-tab="interfaces"><img class="button-icon" src="/icons/globe2.svg" alt="">Интерфейсы</button>
+      <button class="tab-button" id="tab-diagnostics" type="button" role="tab" aria-selected="false" aria-controls="panel-diagnostics" data-tab="diagnostics"><img class="button-icon" src="/icons/info-circle.svg" alt="">Диагностика</button>
+    </nav>
+
+    <section class="tab-panel" id="panel-interfaces" role="tabpanel" aria-labelledby="tab-interfaces">
+      <div class="workspace-head">
+        <div class="workspace-title">
+          <h2>Интерфейсы</h2>
+          <div class="workspace-meta" id="interfaces-count">Загрузка</div>
+        </div>
+        <button class="add-button" id="add-interface" type="button" aria-label="Добавить интерфейс" title="Добавить интерфейс"><img class="button-icon" src="/icons/plus-circle.svg" alt=""></button>
+      </div>
+      <div class="message" id="interface-message" hidden></div>
+
+      <div class="layout" id="interfaces-layout">
+        <section class="surface list-shell">
+          <div class="surface-body list-body">
+            <div class="interfaces" id="interfaces"></div>
+          </div>
+        </section>
+
+        <aside class="surface creator" id="creator-panel" hidden>
+          <div class="surface-header">
+            <p class="surface-title" id="creator-title">Новый интерфейс</p>
+            <button class="ghost" id="close-creator" type="button" aria-label="Закрыть" title="Закрыть">x</button>
+          </div>
+          <div class="surface-body">
+            <section class="step-stack" id="provider-select">
+              <button class="provider-option" type="button" data-provider="amneziawg">
+                <span class="provider-main">
+                  <span class="provider-name">AmneziaWG</span>
+                  <span class="provider-caption">AmneziaVPN .conf</span>
+                </span>
+                <span class="badge warn" id="provider-amneziawg-badge">проверка</span>
+              </button>
+            </section>
+
+            <section class="runtime-panel" id="amneziawg-runtime-panel" hidden>
+              <span class="badge missing" id="amneziawg-runtime-badge">missing</span>
+              <div class="dependency-list" id="amneziawg-runtime-summary"></div>
+              <button data-install-amneziawg id="install-amneziawg-inline" type="button">Установить AmneziaWG</button>
+            </section>
+
+	            <section id="amneziawg-create-panel" hidden>
+	              <form class="form-grid" id="amneziawg-config-form">
+	                <div>
+	                  <label for="amneziawg-description">Название</label>
+                  <input id="amneziawg-description" name="description" type="text" placeholder="AWG-Go" maxlength="48" autocomplete="off">
+                </div>
+                <input id="amneziawg-name" name="name" type="hidden" value="">
+                <div>
+                  <label for="amneziawg-file">Конфигурация</label>
+                  <label class="file-drop" for="amneziawg-file">
+                    <strong>Выбрать .conf файл</strong>
+                    <span class="file-name" id="amneziawg-file-name">Файл не выбран</span>
+                  </label>
+                  <input id="amneziawg-file" name="config" type="file" accept=".conf,text/plain">
+                </div>
+	                <button id="save-amneziawg-config" type="submit">Сохранить интерфейс</button>
+	              </form>
+	            </section>
+
+	            <section id="amneziawg-edit-panel" hidden>
+	              <form class="form-grid" id="amneziawg-edit-form">
+	                <input id="amneziawg-edit-name" name="name" type="hidden" value="">
+	                <div>
+	                  <label>Интерфейс</label>
+	                  <div class="static-field"><strong id="amneziawg-edit-title">AmneziaWG</strong> · <span id="amneziawg-edit-tech-name"></span></div>
+	                </div>
+	                <div>
+	                  <label for="amneziawg-edit-description">Название</label>
+	                  <input id="amneziawg-edit-description" name="description" type="text" placeholder="Test" maxlength="48" autocomplete="off">
+	                </div>
+	                <div>
+	                  <label for="amneziawg-edit-mtu">MTU</label>
+	                  <input id="amneziawg-edit-mtu" name="mtu" type="number" min="576" max="9000" step="1" placeholder="1420" inputmode="numeric">
+	                </div>
+	                <div>
+	                  <label for="amneziawg-edit-file">Конфигурация</label>
+	                  <label class="file-drop" for="amneziawg-edit-file">
+	                    <strong>Заменить .conf файл</strong>
+	                    <span class="file-name" id="amneziawg-edit-file-name">Без замены файла</span>
+	                  </label>
+	                  <input id="amneziawg-edit-file" name="config" type="file" accept=".conf,text/plain">
+	                </div>
+	                <div class="form-actions">
+	                  <button id="update-amneziawg-config" type="submit">Сохранить изменения</button>
+	                  <button class="secondary" id="cancel-amneziawg-edit" type="button">Отмена</button>
+	                </div>
+	              </form>
+	            </section>
+	          </div>
+	        </aside>
+	      </div>
+    </section>
+
+    <section class="tab-panel" id="panel-diagnostics" role="tabpanel" aria-labelledby="tab-diagnostics" hidden>
+      <div class="diagnostics-grid">
+        <section class="surface">
+          <div class="surface-header">
+            <p class="surface-title">Система</p>
+          </div>
+          <div class="surface-body">
+            <dl class="info-list" id="summary"></dl>
+          </div>
+        </section>
+
+        <section class="surface">
+          <div class="surface-header">
+            <p class="surface-title">Runtime</p>
+          </div>
+          <div class="surface-body">
+            <dl class="info-list" id="runtime"></dl>
+          </div>
+        </section>
+
+        <section class="surface wide">
+          <div class="surface-header">
+            <p class="surface-title">Диагностика</p>
+          </div>
+          <div class="surface-body">
+            <pre id="diagnostics"></pre>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    async function loadSystem() {
+      const status = document.getElementById('status');
+      const diagnostics = document.getElementById('diagnostics');
+
+      try {
+        const response = await fetch('/api/system');
+        const data = await response.json();
+        renderSystem(data);
+      } catch (error) {
+        status.textContent = 'Ошибка подключения';
+        status.className = 'api-state error';
+        diagnostics.textContent = String(error);
+      }
+    }
+
+    function renderSystem(data) {
+      const status = document.getElementById('status');
+      const summary = document.getElementById('summary');
+      const runtime = document.getElementById('runtime');
+      const diagnostics = document.getElementById('diagnostics');
+      const awg = data.runtime?.amneziawg || {};
+
+      window.churSystem = data;
+      status.textContent = '';
+      status.className = 'api-state ready';
+      summary.innerHTML = [
+        ['Version', `${data.build?.version || 'unknown'} (${data.build?.commit || 'none'})`],
+        ['Host', data.hostname || 'unknown'],
+        ['OS / Arch', `${data.os}/${data.arch}`],
+        ['Go', data.goVersion],
+        ['/opt', data.paths?.optExists ? 'exists' : 'not found'],
+        ['ndmc', data.commands?.ndmc?.found ? data.commands.ndmc.path : 'not found'],
+        ['opkg', data.commands?.opkg?.found ? data.commands.opkg.path : 'not found']
+      ].map(([key, value]) => `<dt>${key}</dt><dd>${escapeHTML(value)}</dd>`).join('');
+
+      runtime.innerHTML = [
+        ['AmneziaWG', awg.ready ? 'ready' : `missing ${awg.missing ?? 0} of ${awg.required ?? 3}`],
+        ['amneziawg-go', awg.go?.found ? awg.go.path : 'not found'],
+        ['awg', awg.tools?.found ? awg.tools.path : 'not found'],
+        ['awg-quick', awg.quick?.found ? awg.quick.path : 'not found']
+      ].map(([key, value]) => `<dt>${key}</dt><dd>${escapeHTML(value)}</dd>`).join('');
+      renderAmneziaWGRuntime(awg);
+      updateProviderCards(awg);
+
+      diagnostics.textContent = JSON.stringify(data, null, 2);
+    }
+
+    function renderAmneziaWGRuntime(awg) {
+      const inlineInstallAmneziaWG = document.getElementById('install-amneziawg-inline');
+      const inlineRuntime = document.getElementById('amneziawg-runtime-summary');
+      const runtimeBadge = document.getElementById('amneziawg-runtime-badge');
+      const rows = [
+        ['amneziawg-go', awg.go],
+        ['awg', awg.tools],
+        ['awg-quick', awg.quick]
+      ];
+
+      inlineInstallAmneziaWG.hidden = Boolean(awg.ready);
+      runtimeBadge.textContent = awg.ready ? 'ready' : `missing ${awg.missing ?? 0} of ${awg.required ?? 3}`;
+      runtimeBadge.className = awg.ready ? 'badge ready' : 'badge missing';
+      inlineRuntime.innerHTML = rows.map(([name, command]) => {
+        const found = Boolean(command?.found);
+        const value = found ? command.path : 'not found';
+        return `
+          <div class="dependency">
+            <div>
+              <strong>${escapeHTML(name)}</strong><br>
+              <code>${escapeHTML(value)}</code>
+            </div>
+            <span class="badge ${found ? 'found' : 'missing'}">${found ? 'found' : 'missing'}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateProviderCards(awg) {
+      const badge = document.getElementById('provider-amneziawg-badge');
+      if (!badge) {
+        return;
+      }
+      badge.textContent = awg.ready ? 'ready' : 'нужна установка';
+      badge.className = awg.ready ? 'badge ready' : 'badge missing';
+    }
+
+    async function installAmneziaWGRuntime() {
+      const status = document.getElementById('status');
+      const diagnostics = document.getElementById('diagnostics');
+      const buttons = [...document.querySelectorAll('[data-install-amneziawg]')];
+
+      buttons.forEach((button) => button.disabled = true);
+      status.textContent = 'Установка AmneziaWG';
+      try {
+        const response = await fetch('/api/runtime/amneziawg/install', { method: 'POST' });
+        const result = await response.json();
+        diagnostics.textContent = JSON.stringify(result, null, 2);
+        if (!response.ok) {
+          status.textContent = 'Ошибка установки';
+          status.className = 'api-state error';
+          return;
+        }
+        await loadSystem();
+        showAmneziaWGCreate();
+        await loadAmneziaWGConfigs();
+      } catch (error) {
+        status.textContent = 'Ошибка установки';
+        status.className = 'api-state error';
+        diagnostics.textContent = String(error);
+      } finally {
+        buttons.forEach((button) => button.disabled = false);
+      }
+    }
+
+    async function loadAmneziaWGConfigs() {
+      const interfaces = document.getElementById('interfaces');
+      const interfacesCount = document.getElementById('interfaces-count');
+      try {
+	        const response = await fetch('/api/providers/amneziawg/configs');
+	        const data = await response.json();
+	        const configs = data.configs || [];
+	        window.churAmneziaWGConfigs = configs;
+	        interfacesCount.textContent = configs.length ? `${configs.length} сохранено` : 'Нет сохраненных интерфейсов';
+	        if (!configs.length) {
+	          window.churAmneziaWGConfigs = [];
+	          interfaces.innerHTML = '';
+	          return;
+	        }
+        interfaces.innerHTML = configs.map((config, index) => `
+          <article class="interface-row">
+            <div class="interface-main">
+              <div>
+                <div class="interface-name">${escapeHTML(config.description || config.name)}</div>
+                <div class="interface-type">AmneziaWG · ${escapeHTML(config.name)}</div>
+              </div>
+              <span class="badge warn" id="amneziawg-status-${index}">checking</span>
+            </div>
+            <div class="interface-meta">
+              ${renderMetaChip('Address', formatConfigValue(config.address, config.addressCommented))}
+              ${renderMetaChip('MTU', config.mtu || 'not set')}
+              ${renderMetaChip('Endpoint', config.endpoint || 'not set')}
+              ${renderMetaChip('AllowedIPs', config.allowedIp || 'not set')}
+            </div>
+            <div class="interface-actions">
+              <button class="icon-button secondary" type="button" data-amneziawg-action="edit" data-name="${escapeHTML(config.name)}" aria-label="Редактировать ${escapeHTML(config.name)}" title="Редактировать"><img class="button-icon" src="/icons/pencil-square.svg" alt=""></button>
+              <button class="icon-button secondary" type="button" data-amneziawg-action="status" data-name="${escapeHTML(config.name)}" data-status-id="amneziawg-status-${index}" aria-label="Обновить статус ${escapeHTML(config.name)}" title="Статус"><img class="button-icon" src="/icons/arrow-clockwise.svg" alt=""></button>
+              <button class="icon-button danger" type="button" data-amneziawg-action="delete" data-name="${escapeHTML(config.name)}" aria-label="Удалить ${escapeHTML(config.name)}" title="Удалить"><img class="button-icon" src="/icons/trash-fill.svg" alt=""></button>
+            </div>
+          </article>
+        `).join('');
+        configs.forEach((config, index) => refreshAmneziaWGStatus(config.name, `amneziawg-status-${index}`));
+      } catch (error) {
+        interfacesCount.textContent = 'Ошибка загрузки';
+        interfaces.innerHTML = `<div class="interface-row empty"><span>${escapeHTML(String(error))}</span></div>`;
+      }
+    }
+
+    function renderMetaChip(key, value) {
+      return `<span class="meta-chip"><strong>${escapeHTML(key)}</strong><span>${escapeHTML(value)}</span></span>`;
+    }
+
+	    async function saveAmneziaWGConfig(event) {
+	      event.preventDefault();
+
+	      const status = document.getElementById('status');
+	      const diagnostics = document.getElementById('diagnostics');
+	      const button = document.getElementById('save-amneziawg-config');
+	      const form = document.getElementById('amneziawg-config-form');
+	      const formData = new FormData(form);
+
+	      button.disabled = true;
+	      status.textContent = 'Сохранение конфига';
+	      setInterfaceMessage('');
+	      try {
+	        const response = await fetch('/api/providers/amneziawg/configs', {
+	          method: 'POST',
+	          body: formData
+	        });
+	        const result = await response.json();
+	        diagnostics.textContent = JSON.stringify(result, null, 2);
+	        if (!response.ok) {
+	          const message = formatAPIError(result, 'Ошибка сохранения');
+	          status.textContent = message;
+	          status.className = 'api-state error';
+	          setInterfaceMessage(message, 'error');
+	          return;
+	        }
+	        status.textContent = 'Конфиг сохранен';
+	        status.className = 'api-state ready';
+	        setInterfaceMessage('Конфиг сохранен', 'success');
+	        setCreatorOpen(false);
+	        await loadAmneziaWGConfigs();
+	      } catch (error) {
+	        status.textContent = 'Ошибка сохранения';
+	        status.className = 'api-state error';
+	        setInterfaceMessage(String(error), 'error');
+	        diagnostics.textContent = String(error);
+	      } finally {
+	        button.disabled = false;
+	      }
+	    }
+
+	    async function updateAmneziaWGConfig(event) {
+	      event.preventDefault();
+
+	      const status = document.getElementById('status');
+	      const diagnostics = document.getElementById('diagnostics');
+	      const button = document.getElementById('update-amneziawg-config');
+	      const form = document.getElementById('amneziawg-edit-form');
+	      const name = document.getElementById('amneziawg-edit-name').value;
+	      const formData = new FormData(form);
+
+	      button.disabled = true;
+	      status.textContent = 'Сохранение изменений';
+	      setInterfaceMessage('');
+	      try {
+	        const response = await fetch(`/api/providers/amneziawg/configs/${encodeURIComponent(name)}`, {
+	          method: 'PUT',
+	          body: formData
+	        });
+	        const result = await response.json();
+	        diagnostics.textContent = JSON.stringify(result, null, 2);
+	        if (!response.ok) {
+	          const message = formatAPIError(result, 'Ошибка сохранения');
+	          status.textContent = message;
+	          status.className = 'api-state error';
+	          setInterfaceMessage(message, 'error');
+	          return;
+	        }
+	        status.textContent = result.restarted ? 'Изменения сохранены, интерфейс перезапущен' : 'Изменения сохранены';
+	        status.className = 'api-state ready';
+	        setInterfaceMessage(status.textContent, 'success');
+	        setCreatorOpen(false);
+	        await loadAmneziaWGConfigs();
+	      } catch (error) {
+	        status.textContent = 'Ошибка сохранения';
+	        status.className = 'api-state error';
+	        setInterfaceMessage(String(error), 'error');
+	        diagnostics.textContent = String(error);
+	      } finally {
+	        button.disabled = false;
+	      }
+	    }
+
+    async function refreshAmneziaWGStatus(name, statusId) {
+      const statusNode = document.getElementById(statusId);
+      if (!statusNode) {
+        return;
+      }
+      try {
+        const response = await fetch(`/api/providers/amneziawg/configs/${encodeURIComponent(name)}/status`);
+        const result = await response.json();
+        if (!response.ok) {
+          setInterfaceBadge(statusNode, result.error || 'status error', 'error');
+          return;
+        }
+        const text = formatInterfaceStatus(result);
+        setInterfaceBadge(statusNode, text, text === 'running' ? 'running' : 'stopped');
+      } catch (error) {
+        setInterfaceBadge(statusNode, String(error), 'error');
+      }
+    }
+
+    function setInterfaceBadge(node, text, state) {
+      node.textContent = text;
+      node.className = `badge ${state}`;
+    }
+
+    async function runAmneziaWGAction(event) {
+      const button = event.target.closest('[data-amneziawg-action]');
+      if (!button) {
+        return;
+      }
+
+      const action = button.dataset.amneziawgAction;
+      const name = button.dataset.name;
+      const operation = action;
+      const status = document.getElementById('status');
+      const diagnostics = document.getElementById('diagnostics');
+      const item = button.closest('.interface-row');
+      const buttons = item ? [...item.querySelectorAll('button')] : [button];
+
+	      if (operation === 'edit') {
+	        showAmneziaWGEdit(name);
+	        return;
+	      }
+
+      if (operation === 'delete' && !window.confirm(`Удалить интерфейс ${name}?`)) {
+        return;
+      }
+
+      buttons.forEach((itemButton) => itemButton.disabled = true);
+      status.textContent = interfaceActionText(operation);
+      setInterfaceMessage('');
+      try {
+        if (operation === 'status') {
+          await refreshAmneziaWGStatus(name, button.dataset.statusId);
+          status.textContent = 'Статус обновлен';
+          status.className = 'api-state ready';
+          return;
+        }
+
+        const response = await fetch(`/api/providers/amneziawg/configs/${encodeURIComponent(name)}${interfaceActionPath(operation)}`, {
+          method: operation === 'delete' ? 'DELETE' : 'POST'
+        });
+        const result = await response.json();
+        diagnostics.textContent = JSON.stringify(result, null, 2);
+        if (!response.ok) {
+          const message = formatAPIError(result, 'Ошибка операции');
+          status.textContent = message;
+          status.className = 'api-state error';
+          setInterfaceMessage(message, 'error');
+          return;
+        }
+        status.textContent = 'Операция выполнена';
+        status.className = 'api-state ready';
+        setInterfaceMessage('Операция выполнена', 'success');
+        await loadAmneziaWGConfigs();
+      } catch (error) {
+        status.textContent = 'Ошибка операции';
+        status.className = 'api-state error';
+        setInterfaceMessage(String(error), 'error');
+        diagnostics.textContent = String(error);
+      } finally {
+        buttons.forEach((itemButton) => itemButton.disabled = false);
+      }
+    }
+
+    function formatInterfaceStatus(value) {
+      if (!value.configExists) {
+        return 'config missing';
+      }
+      return value.running ? 'running' : 'stopped';
+    }
+
+    function interfaceActionPath(action) {
+      if (action === 'delete') {
+        return '';
+      }
+      return `/${action}`;
+    }
+
+    function interfaceActionText(action) {
+      if (action === 'start') {
+        return 'Запуск интерфейса';
+      }
+      if (action === 'stop') {
+        return 'Остановка интерфейса';
+      }
+      if (action === 'delete') {
+        return 'Удаление интерфейса';
+      }
+      return 'Проверка статуса';
+    }
+
+    function escapeHTML(value) {
+      return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function formatConfigValue(value, commented) {
+      if (!value) {
+        return 'not set';
+      }
+      return commented ? `${value} (commented)` : value;
+    }
+
+    function formatAPIError(result, fallback) {
+      return result?.error || result?.message || fallback;
+    }
+
+    function setInterfaceMessage(text, type) {
+      const node = document.getElementById('interface-message');
+      if (!text) {
+        node.hidden = true;
+        node.textContent = '';
+        node.className = 'message';
+        return;
+      }
+      node.hidden = false;
+      node.textContent = text;
+      node.className = `message ${type || 'error'}`;
+    }
+
+    function setCreatorOpen(open) {
+      const creator = document.getElementById('creator-panel');
+      const layout = document.getElementById('interfaces-layout');
+      creator.hidden = !open;
+      layout.classList.toggle('with-creator', open);
+      if (!open) {
+        hideCreationPanels();
+      }
+    }
+
+	    function hideCreationPanels() {
+	      document.getElementById('provider-select').hidden = true;
+	      document.getElementById('amneziawg-runtime-panel').hidden = true;
+	      document.getElementById('amneziawg-create-panel').hidden = true;
+	      document.getElementById('amneziawg-edit-panel').hidden = true;
+	    }
+
+	    function showProviderSelect() {
+	      setCreatorOpen(true);
+	      hideCreationPanels();
+	      document.getElementById('creator-title').textContent = 'Новый интерфейс';
+	      resetAmneziaWGCreateForm();
+	      document.getElementById('provider-select').hidden = false;
+	      updateProviderCards(window.churSystem?.runtime?.amneziawg || {});
+	    }
+
+    function showAmneziaWGCreate() {
+      setCreatorOpen(true);
+      hideCreationPanels();
+	      const awg = window.churSystem?.runtime?.amneziawg || {};
+	      document.getElementById('creator-title').textContent = 'AmneziaWG';
+	      if (awg.ready) {
+	        resetAmneziaWGCreateForm();
+	        document.getElementById('amneziawg-create-panel').hidden = false;
+	        return;
+	      }
+      document.getElementById('amneziawg-runtime-panel').hidden = false;
+	      renderAmneziaWGRuntime(awg);
+	    }
+
+	    function showAmneziaWGEdit(name) {
+	      const config = (window.churAmneziaWGConfigs || []).find((item) => item.name === name);
+	      if (!config) {
+	        setInterfaceMessage(`Интерфейс ${name} не найден`, 'error');
+	        return;
+	      }
+	      setCreatorOpen(true);
+	      hideCreationPanels();
+	      document.getElementById('creator-title').textContent = 'Редактировать интерфейс';
+	      document.getElementById('amneziawg-edit-name').value = config.name;
+	      document.getElementById('amneziawg-edit-title').textContent = 'AmneziaWG';
+	      document.getElementById('amneziawg-edit-tech-name').textContent = config.name;
+	      document.getElementById('amneziawg-edit-description').value = config.description || '';
+	      document.getElementById('amneziawg-edit-mtu').value = config.mtu || '';
+	      document.getElementById('amneziawg-edit-file').value = '';
+	      document.getElementById('amneziawg-edit-file-name').textContent = 'Без замены файла';
+	      document.getElementById('amneziawg-edit-panel').hidden = false;
+	    }
+
+	    function resetAmneziaWGCreateForm() {
+	      const form = document.getElementById('amneziawg-config-form');
+	      form.reset();
+	      document.getElementById('amneziawg-file-name').textContent = 'Файл не выбран';
+	    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('[data-tab]').forEach((button) => {
+        button.setAttribute('aria-selected', String(button.dataset.tab === tab));
+      });
+      document.getElementById('panel-interfaces').hidden = tab !== 'interfaces';
+      document.getElementById('panel-diagnostics').hidden = tab !== 'diagnostics';
+    }
+
+    document.querySelectorAll('[data-tab]').forEach((button) => {
+      button.addEventListener('click', () => switchTab(button.dataset.tab));
+    });
+    document.querySelectorAll('[data-install-amneziawg]').forEach((button) => {
+      button.addEventListener('click', installAmneziaWGRuntime);
+    });
+    document.getElementById('add-interface').addEventListener('click', showProviderSelect);
+    document.getElementById('close-creator').addEventListener('click', () => setCreatorOpen(false));
+	    document.querySelector('[data-provider="amneziawg"]').addEventListener('click', showAmneziaWGCreate);
+	    document.getElementById('amneziawg-config-form').addEventListener('submit', saveAmneziaWGConfig);
+	    document.getElementById('amneziawg-edit-form').addEventListener('submit', updateAmneziaWGConfig);
+	    document.getElementById('cancel-amneziawg-edit').addEventListener('click', () => setCreatorOpen(false));
+	    document.getElementById('amneziawg-file').addEventListener('change', (event) => {
+	      const file = event.target.files?.[0];
+	      document.getElementById('amneziawg-file-name').textContent = file ? file.name : 'Файл не выбран';
+	    });
+	    document.getElementById('amneziawg-edit-file').addEventListener('change', (event) => {
+	      const file = event.target.files?.[0];
+	      document.getElementById('amneziawg-edit-file-name').textContent = file ? file.name : 'Без замены файла';
+	    });
+    document.getElementById('interfaces').addEventListener('click', runAmneziaWGAction);
+    loadSystem();
+    loadAmneziaWGConfigs();
+  </script>
+</body>
+</html>
