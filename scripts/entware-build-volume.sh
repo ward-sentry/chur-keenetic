@@ -2,9 +2,9 @@
 set -eu
 
 IMAGE="${ENTWARE_DOCKER_IMAGE:-chur-entware-build:20.04}"
-VOLUME="${ENTWARE_DOCKER_VOLUME:-chur-entware-aarch64-3.10}"
 DIST_DIR="${DIST_DIR:-dist/entware-ipk}"
 TARGET_CONFIG="${ENTWARE_TARGET_CONFIG:-aarch64-3.10}"
+VOLUME="${ENTWARE_DOCKER_VOLUME:-chur-entware-$TARGET_CONFIG}"
 ENV_FILE="${ENV_FILE:-.env}"
 CHUR_VERSION="${CHUR_VERSION:-$(cat VERSION)}"
 
@@ -19,7 +19,7 @@ CHUR_MANAGER_BINARY="${CHUR_MANAGER_BINARY:-/src/dist/chur_${CHUR_VERSION}_entwa
 CHUR_AMNEZIAWG_GO_BINARY="${CHUR_AMNEZIAWG_GO_BINARY:-/src/dist/amneziawg-go_${AMNEZIAWG_GO_SHORT_COMMIT}_entware_${TARGET_CONFIG}}"
 
 mkdir -p "$DIST_DIR"
-find "$DIST_DIR" -maxdepth 1 -type f -name '*.ipk' -delete
+find "$DIST_DIR" -maxdepth 1 -type f -name "*_${TARGET_CONFIG}.ipk" -delete
 docker volume create "$VOLUME" >/dev/null
 
 docker run --rm \
